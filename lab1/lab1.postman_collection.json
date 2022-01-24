@@ -1,0 +1,217 @@
+{
+  "info": {
+    "_postman_id": "3c0caa1a-251f-40e0-9894-5ee98b24f25c",
+    "name": "lab1",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "logout",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/blog/logout",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["blog", "logout"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "signup",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"xyz\",\r\n    \"username\": \"xyzssf\",\r\n    \"password\": \"123456\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/blog/signup",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["blog", "signup"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "create blog",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "\r\n{   \r\n  \"title\": \"My experience Teaching JavaScript\", \r\n  \"body\": \"This is the blog post body.. here is the actually blog post content.. blah blah blah.....\" \r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/blog",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["blog"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "update blog",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"title\":\"This is not good\",\r\n    \"body\":\"abc abc abc xyz\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/blog/61ea10ed9aee39cec33665f2",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["blog", "61ea10ed9aee39cec33665f2"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "New Request",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"title\":\"hey hey hey\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/blog/61e9cc8dafe3857fbabb159f",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["blog", "61e9cc8dafe3857fbabb159f"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\":\"\",\r\n    \"password\":\"\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/blog/login",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["blog", "login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "create comment",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"comment\":\"this is new\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/blog/61eb3aea280d1afac776d1ea/comments",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["blog", "61eb3aea280d1afac776d1ea", "comments"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "delete",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/blog/61eaf4869c0e97f074cfb47b/61eb7de06d5c30030d1df893",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": [
+            "blog",
+            "61eaf4869c0e97f074cfb47b",
+            "61eb7de06d5c30030d1df893"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getall",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/blog/logout",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["blog", "logout"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getone",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/blog/61ea10ed9aee39cec33665f2",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["blog", "61ea10ed9aee39cec33665f2"]
+        }
+      },
+      "response": []
+    }
+  ]
+}
