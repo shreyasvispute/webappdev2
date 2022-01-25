@@ -126,7 +126,7 @@ router.post("/login", async (req, res) => {
     const validateUser = await userData.checkUser(username, password);
     if (validateUser) {
       req.session.username = username;
-      req.session.userId = validateUser._id.toString();
+      req.session.userId = validateUser._id;
       res.json(validateUser);
     }
   } catch (e) {
@@ -181,7 +181,7 @@ router.get("/", async (req, res) => {
       validations.validateSkip(skip);
       queryString.skip = skip;
     }
-    if (req.query.take) {
+    if (req.query.take && req.query.take != "") {
       take = Number(req.query.take);
       validations.validateTake(take);
       queryString.take = take;
@@ -293,10 +293,15 @@ router.patch("/:id", authorizeUserBlogAccess, async (req, res) => {
     let updateBlog = {};
     validations.validateId(req.params.id);
 
+    const validateBlog = await blogData.getBlog(req.params.id);
+    if (!validateBlog) return res.status(404).json({ error: "Blog not found" });
+
     if (req.body.title && req.body.title !== validateBlog.title) {
+      validations.validateString(req.body.title);
       updateBlog.title = req.body.title;
     }
     if (req.body.body && req.body.body !== validateBlog.body) {
+      validations.validateString(req.body.body);
       updateBlog.body = req.body.body;
     }
 

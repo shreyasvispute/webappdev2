@@ -86,7 +86,7 @@ async function getUser(id) {
   const checkData = await userCollection.findOne({ _id: id });
 
   if (checkData === null) throw { code: 404, error: "No record found" };
-  checkData._id = checkData._id.toString();
+  //checkData._id = checkData._id.toString();
   delete checkData.password;
   return checkData;
 }

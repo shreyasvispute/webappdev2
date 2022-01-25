@@ -79,7 +79,8 @@ async function getComment(blogId, commentId) {
     comments: { $elemMatch: { _id: commentId } },
   });
 
-  if (getBlog === null) throw { code: 400, error: "No comment with that id" };
+  if (getBlog === null)
+    throw { code: 400, error: "No comment with that id in the blog!" };
   getBlog._id = getBlog._id.toString();
 
   return getBlog;

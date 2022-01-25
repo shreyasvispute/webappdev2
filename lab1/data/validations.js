@@ -136,7 +136,14 @@ function validateComment(comment, userThatPostedComment) {
     }
   }
 }
-
+function validateString(str) {
+  if (typeof str != "string") {
+    throw { code: 400, error: "parameter must be string" };
+  }
+  if (str.trim().length === 0) {
+    throw { code: 400, error: "parameter cannot be empty or spaces!" };
+  }
+}
 module.exports = {
   validate,
   checkParameters,
@@ -144,5 +151,6 @@ module.exports = {
   validateSkip,
   validateId,
   validateTake,
+  validateString,
   validateComment,
 };
