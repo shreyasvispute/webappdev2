@@ -3,7 +3,7 @@ const validations = require("../data/validations");
 const bcrypt = require("bcrypt");
 const users = mongoCollections.users;
 
-const salt = 1;
+const salt = 16;
 
 async function createUser(name, username, password = checkParameters()) {
   name = name.trim();
