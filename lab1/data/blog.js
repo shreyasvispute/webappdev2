@@ -1,5 +1,4 @@
 const { ObjectID } = require("bson");
-const res = require("express/lib/response");
 const mongoCollections = require("../config/mongoCollections");
 const validations = require("./validations");
 const blogs = mongoCollections.blogs;
