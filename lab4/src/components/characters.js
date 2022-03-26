@@ -1,19 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import md5 from "blueimp-md5";
-import paginate from "./paginate";
-
-import {
-  Card,
-  Container,
-  ListGroup,
-  ListGroupItem,
-  Spinner,
-  CardGroup,
-} from "react-bootstrap";
+import Search from "./search";
 import NotFound from "./notfound";
 import Paginate from "./paginate";
+import { Card, Container, Spinner, CardGroup, Row, Col } from "react-bootstrap";
 
 const publickey = "be3f31438c0d0dca365602ae44e1256e";
 const privatekey = "943eee94a11e331175bd7a9dbab6650308c4fab6";
@@ -23,12 +15,18 @@ const hash = md5(stringToHash);
 const baseUrl = "https://gateway.marvel.com:443/v1/public/characters";
 
 function Characters() {
+  const [searchData, setSearchData] = useState(undefined);
+  const [searchTerm, setSearchTerm] = useState("");
   const [apiData, setApiData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pageError, setPageError] = useState(false);
   const [isPrev, setPrevState] = useState(false);
   const [isNext, setNextState] = useState(false);
+  const [paginate, setPaginate] = useState(true);
+  const [totalRecords, setTotalRecords] = useState("");
+  const [pages, setPages] = useState("");
 
+  let card = null;
   let params = useParams();
 
   useEffect(() => {
@@ -47,8 +45,12 @@ function Characters() {
         const url = `${baseUrl}?offset=${offset}&limit=${limit}&ts=${ts}&apikey=${publickey}&hash=${hash}`;
         const { data } = await axios.get(url);
         let totalRecords = data.data.total;
+        setTotalRecords(totalRecords);
 
-        if (page - 1 == Math.ceil(totalRecords / limit) - 1) {
+        let totalPages = Math.ceil(totalRecords / limit) - 1;
+        setPages(totalPages);
+
+        if (page - 1 === totalPages) {
           setNextState(false);
         } else {
           setNextState(true);
@@ -62,12 +64,75 @@ function Characters() {
           setPageError(false);
         }
       } catch (error) {
-        //setPageError = true;
+        console.log(error);
       }
     };
     getData();
   }, [params.page]);
 
+  useEffect(() => {
+    async function searchCharacters(searchTerm) {
+      try {
+        const url = `${baseUrl}?nameStartsWith=${searchTerm}&ts=${ts}&apikey=${publickey}&hash=${hash}`;
+        const { data } = await axios.get(url);
+        setSearchData(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    if (searchTerm) {
+      setPaginate(false);
+      searchCharacters(searchTerm);
+    } else {
+      setPaginate(true);
+    }
+  }, [searchTerm]);
+
+  const searchValue = async (value) => {
+    setSearchTerm(value);
+  };
+  const buildCard = (data) => {
+    return (
+      <div className="col sm-4">
+        <Card key={data.id} style={{ width: "17.5rem" }}>
+          <Card.Img
+            variant="top"
+            src={data.thumbnail.path + "." + data.thumbnail.extension}
+          />
+          <Card.Body>
+            <Link to={`/characters/${data.id}`}>
+              <Card.Title>{data.name}</Card.Title>
+            </Link>
+            {/* <Card.Text>{characterData.description}</Card.Text> */}
+          </Card.Body>
+        </Card>
+      </div>
+    );
+  };
+  if (searchTerm) {
+    if (searchData && searchData.data.count === 0) {
+      return (
+        <>
+          <div>
+            <h1>Data not NotFound</h1>
+          </div>
+        </>
+      );
+    } else {
+      card =
+        searchData &&
+        searchData.data.results.map((characters) => {
+          return buildCard(characters);
+        });
+    }
+  } else {
+    card =
+      apiData.data &&
+      apiData.data.results.map((characterData) => {
+        return buildCard(characterData);
+      });
+  }
   if (pageError) {
     return (
       <>
@@ -88,37 +153,31 @@ function Characters() {
     } else {
       return (
         <Container>
-          <Paginate
-            pageNum={params.page}
-            prevState={isPrev}
-            nextState={isNext}
-          ></Paginate>
-          <CardGroup>
-            {apiData.data &&
-              apiData.data.results.map((characterData) => (
-                <div className="col sm-4">
-                  <Card key={characterData.id} style={{ width: "18rem" }}>
-                    <Card.Img
-                      variant="top"
-                      src={characterData.thumbnail.path + ".jpg"}
-                    />
-                    <Card.Body>
-                      <Card.Title>{characterData.name}</Card.Title>
-                      {/* <Card.Text>{characterData.description}</Card.Text> */}
-                    </Card.Body>
-                    {/* <ListGroup className="list-group-flush">
-                    <ListGroupItem>Cras justo odio</ListGroupItem>
-                    <ListGroupItem>Dapibus ac facilisis in</ListGroupItem>
-                    <ListGroupItem>Vestibulum at eros</ListGroupItem>
-                  </ListGroup> */}
-                    {/* <Card.Body>
-                    {/* <Link href="#">Card Link</Link>
-        <Link href="#">Another Link</Link> }
-                  </Card.Body> */}
-                  </Card>
-                </div>
-              ))}
-          </CardGroup>
+          <Container className="headRow">
+            <Row>
+              <Col sm>
+                <Search page="Characters" searchValue={searchValue}></Search>
+              </Col>
+              <Col sm className="makeCenter filterMargin">
+                {paginate && (
+                  <Paginate
+                    pageNum={params.page}
+                    prevState={isPrev}
+                    nextState={isNext}
+                    page="characters"
+                    currentPage={
+                      Number(params.page) < 0 ? 0 : Number(params.page)
+                    }
+                    totalPages={pages}
+                  ></Paginate>
+                )}
+              </Col>
+              <Col sm className="makeCenter filterMargin">
+                Total Records Count: {totalRecords}
+              </Col>
+            </Row>
+          </Container>
+          <CardGroup>{card}</CardGroup>
         </Container>
       );
     }

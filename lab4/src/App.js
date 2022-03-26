@@ -1,9 +1,14 @@
 import { Routes, Route, Link, Outlet } from "react-router-dom";
 import "./App.css";
 import Characters from "./components/characters";
+import Hero from "./components/hero";
 import Comics from "./components/comics";
 import Series from "./components/series";
+import Serie from "./components/serie";
+import Comic from "./components/comic";
 import NotFound from "./components/notfound";
+import Home from "./components/home";
+
 import { Container, Navbar, Nav } from "react-bootstrap";
 
 function App() {
@@ -26,22 +31,23 @@ function App() {
             </Nav>
           </Container>
         </Navbar>
-      </Container>  
+      </Container>
 
       <Routes>
+        <Route path="/" element={<Home />}></Route>
+
         <Route path="/characters" element={<Characters />}>
           <Route path="page/:page"></Route>
-          <Route path=":id"></Route>
         </Route>
+        <Route path="/characters/:id" element={<Hero />}></Route>
         <Route path="/comics" element={<Comics />}>
           <Route path="page/:page"></Route>
-          <Route path=":id"></Route>
         </Route>
+        <Route path="comics/:id" element={<Comic />}></Route>
         <Route path="/series" element={<Series />}>
           <Route path="page/:page"></Route>
-          <Route path=":id"></Route>
         </Route>
-
+        <Route path="series/:id" element={<Serie />}></Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

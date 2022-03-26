@@ -1,21 +1,18 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: "Courier New", Courier, Monaco !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #212529 !important;
+  font-size: 1rem !important;
+  /* background-color: #08090a !important; */
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: "Courier New", Courier, Monaco;
 }
 @media (max-width: 576px) {
   .xs {
     color: red;
-    font-weight: bold;
   }
 }
 
@@ -23,7 +20,6 @@ code {
 @media (min-width: 576px) and (max-width: 768px) {
   .sm {
     color: red;
-    font-weight: bold;
   }
 }
 
@@ -31,7 +27,6 @@ code {
 @media (min-width: 768px) and (max-width: 992px) {
   .md {
     color: red;
-    font-weight: bold;
   }
 }
 
@@ -39,7 +34,6 @@ code {
 @media (min-width: 992px) and (max-width: 1200px) {
   .lg {
     color: red;
-    font-weight: bold;
   }
 }
 
@@ -47,6 +41,46 @@ code {
 @media (min-width: 1200px) {
   .xl {
     color: red;
-    font-weight: bold;
   }
+}
+
+a:hover,
+a:focus {
+  background-color: red !important;
+}
+.h5 {
+  font-size: 1rem !important;
+}
+.card {
+  padding: 10px;
+  border: none !important;
+}
+.card-img-top {
+  float: left;
+  width: 250px !important;
+  height: 300px !important;
+  object-fit: fill;
+  box-shadow: 5px 6px 12px 4px #666;
+}
+a {
+  text-decoration: none !important;
+}
+a:hover {
+  text-decoration: none !important;
+  color: white !important;
+}
+.card-title:hover {
+  color: white;
+  background-color: red !important;
+}
+.headRow {
+  margin-top: 25px;
+}
+.paginateDesign {
+  display: flex;
+  align-content: stretch;
+  justify-content: center;
+}
+.filterMargin {
+  margin-top: 8px !important;
 }
