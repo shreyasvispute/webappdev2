@@ -57,8 +57,11 @@ const Hero = () => {
       <Container>
         {apiData && (
           <Card key={apiData.id}>
-            <Card.Title className="title">{apiData.title}</Card.Title>
+            <Card.Title className="title card-title-inner">
+              {apiData.title}
+            </Card.Title>
             <Card.Img
+              alt={apiData.title}
               className="cardImg"
               variant="top"
               src={apiData.thumbnail.path + "." + apiData.thumbnail.extension}
@@ -71,7 +74,7 @@ const Hero = () => {
                 <Card.Text>No description found</Card.Text>
               )}
             </Card.Body>
-            <Card.Title>Creators</Card.Title>
+            <Card.Title className="card-title-inner">Creators</Card.Title>
 
             {apiData &&
             apiData.creators.items &&

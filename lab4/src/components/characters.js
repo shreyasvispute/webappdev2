@@ -97,6 +97,7 @@ function Characters() {
       <div className="col sm-4">
         <Card key={data.id} style={{ width: "17.5rem" }}>
           <Card.Img
+            alt={data.name}
             variant="top"
             src={data.thumbnail.path + "." + data.thumbnail.extension}
           />

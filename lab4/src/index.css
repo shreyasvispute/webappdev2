@@ -47,6 +47,7 @@ code {
 a:hover,
 a:focus {
   background-color: red !important;
+  color: white !important;
 }
 .h5 {
   font-size: 1rem !important;
@@ -83,4 +84,24 @@ a:hover {
 }
 .filterMargin {
   margin-top: 8px !important;
+}
+.navbar {
+  position: relative;
+}
+.navbar-brand {
+  padding-top: 0px !important;
+  position: absolute;
+  left: 50%;
+  margin-left: -50px !important; /* 50% of your logo width */
+  display: block;
+}
+.logo-size {
+  height: 50px;
+}
+.navbar-expand-lg .navbar-nav .nav-link {
+  padding-right: 1rem !important;
+  padding-left: 1rem !important;
+}
+.nav-link:focus {
+  color: white !important;
 }

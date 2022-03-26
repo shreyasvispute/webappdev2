@@ -56,8 +56,11 @@ const Hero = () => {
       <Container>
         {apiData && (
           <Card key={apiData.id}>
-            <Card.Title className="title">{apiData.title}</Card.Title>
+            <Card.Title className="title card-title-inner">
+              {apiData.title}
+            </Card.Title>
             <Card.Img
+              alt={apiData.title}
               className="cardImg"
               variant="top"
               src={apiData.thumbnail.path + "." + apiData.thumbnail.extension}
@@ -72,14 +75,14 @@ const Hero = () => {
             </Card.Body>
 
             <Card.Body>
-              <Card.Title>ISBN</Card.Title>
+              <Card.Title className="card-title-inner">ISBN</Card.Title>
 
               {apiData.isbn ? (
                 <Card.Text>{apiData.isbn}</Card.Text>
               ) : (
                 <Card.Text>N/A</Card.Text>
               )}
-              <Card.Title>Page Count</Card.Title>
+              <Card.Title className="card-title-inner">Page Count</Card.Title>
               {apiData.isbn ? (
                 <Card.Text>{apiData.isbn}</Card.Text>
               ) : (
@@ -87,7 +90,7 @@ const Hero = () => {
               )}
             </Card.Body>
 
-            <Card.Title>Creators</Card.Title>
+            <Card.Title className="card-title-inner">Creators</Card.Title>
 
             {apiData &&
             apiData.creators.items &&

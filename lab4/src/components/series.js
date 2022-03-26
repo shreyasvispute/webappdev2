@@ -4,6 +4,7 @@ import md5 from "blueimp-md5";
 import axios from "axios";
 import NotFound from "./notfound";
 import Paginate from "./paginate";
+import HomeCss from "../styles/serie.css";
 
 import { Card, Container, Spinner, CardGroup, Row, Col } from "react-bootstrap";
 import Search from "./search";
@@ -100,6 +101,7 @@ function Series() {
       <div className="col sm-4">
         <Card key={data.id} style={{ width: "17.5rem" }}>
           <Card.Img
+            alt={data.title}
             variant="top"
             src={data.thumbnail.path + "." + data.thumbnail.extension}
           />

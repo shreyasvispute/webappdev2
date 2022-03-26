@@ -57,7 +57,9 @@ const Hero = () => {
       <Container>
         {apiData && (
           <Card>
-            <Card.Title className="title">{apiData.name}</Card.Title>
+            <Card.Title className="title card-title-inner">
+              {apiData.name}
+            </Card.Title>
             <Card.Img
               className="cardImg"
               variant="top"
@@ -71,7 +73,7 @@ const Hero = () => {
                 <Card.Text>No description found</Card.Text>
               )}
             </Card.Body>
-            <Card.Title>Comics</Card.Title>
+            <Card.Title className="card-title-inner">Comics</Card.Title>
 
             {apiData &&
             apiData.comics.items &&
@@ -86,7 +88,7 @@ const Hero = () => {
                 <ListGroupItem>N/A</ListGroupItem>
               </ListGroup>
             )}
-            <Card.Title>Series</Card.Title>
+            <Card.Title className="card-title-inner">Series</Card.Title>
 
             {apiData &&
             apiData.series.items &&
