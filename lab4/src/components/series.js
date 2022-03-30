@@ -27,6 +27,7 @@ function Series() {
   const [paginate, setPaginate] = useState(true);
   const [totalRecords, setTotalRecords] = useState("");
   const [pages, setPages] = useState("");
+  const [originalRecords, setOriginalRecords] = useState("");
 
   let params = useParams();
   let card = null;
@@ -36,7 +37,12 @@ function Series() {
       try {
         let limit = 20;
         let page = Number(params.page);
-        if (page <= 0) {
+        if (isNaN(page)) {
+          setPageError(true);
+          return;
+        }
+
+        if (page === 0) {
           setPrevState(false);
           page = 0;
         } else {
@@ -49,6 +55,7 @@ function Series() {
         const { data } = await axios.get(url);
         let totalRecords = data.data.total;
         setTotalRecords(totalRecords);
+        setOriginalRecords(totalRecords);
 
         let totalPages = Math.ceil(totalRecords / limit) - 1;
         setPages(totalPages);
@@ -67,7 +74,9 @@ function Series() {
         } else {
           setPageError(false);
         }
-      } catch (error) {}
+      } catch (error) {
+        setPageError(true);
+      }
     };
     getData();
   }, [params.page]);
@@ -78,6 +87,7 @@ function Series() {
         const url = `${baseUrl}?titleStartsWith=${searchTerm}&ts=${ts}&apikey=${publickey}&hash=${hash}`;
         const { data } = await axios.get(url);
         setSearchData(data);
+        setTotalRecords(data.data.total);
       } catch (error) {
         console.log(error);
       }
@@ -87,6 +97,9 @@ function Series() {
       setPaginate(false);
       searchCharacters(searchTerm);
     } else {
+      let records = originalRecords;
+      setTotalRecords(records);
+
       setPaginate(true);
     }
   }, [searchTerm]);
@@ -95,11 +108,10 @@ function Series() {
     setSearchTerm(value);
   };
 
-  const buildCard = (data) => {
-    console.log(data);
+  const buildCard = (data, i) => {
     return (
-      <div className="col sm-4">
-        <Card key={data.id} style={{ width: "17.5rem" }}>
+      <div key={data.id} className="col sm-4">
+        <Card style={{ width: "16rem" }}>
           <Card.Img
             alt={data.title}
             variant="top"
@@ -118,24 +130,16 @@ function Series() {
   };
 
   if (searchTerm) {
-    if (searchData && searchData.data.count === 0) {
-      return (
-        <div>
-          <h1>Data not NotFound</h1>
-        </div>
-      );
-    } else {
-      card =
-        searchData &&
-        searchData.data.results.map((series) => {
-          return buildCard(series);
-        });
-    }
+    card =
+      searchData &&
+      searchData.data.results.map((series, i) => {
+        return buildCard(series, i);
+      });
   } else {
     card =
       apiData.data &&
-      apiData.data.results.map((seriesData) => {
-        return buildCard(seriesData);
+      apiData.data.results.map((seriesData, i) => {
+        return buildCard(seriesData, i);
       });
   }
   if (pageError) {
@@ -159,6 +163,12 @@ function Series() {
       return (
         <Container>
           <Container className="headRow">
+            <Row className="titleAlign">
+              <h1>
+                <span className="marvel">Marvel</span> Series
+              </h1>
+            </Row>
+
             <Row>
               <Col sm>
                 <Search page="series" searchValue={searchValue}></Search>

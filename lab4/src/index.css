@@ -53,8 +53,8 @@ a:focus {
   font-size: 1rem !important;
 }
 .card {
-  padding: 10px;
   border: none !important;
+  margin-left: 20px;
 }
 .card-img-top {
   float: left;
@@ -97,6 +97,7 @@ a:hover {
 }
 .logo-size {
   height: 50px;
+  margin: -3px;
 }
 .navbar-expand-lg .navbar-nav .nav-link {
   padding-right: 1rem !important;
@@ -104,4 +105,36 @@ a:hover {
 }
 .nav-link:focus {
   color: white !important;
+}
+.navHead {
+  padding-bottom: 0.5%;
+}
+.titleAlign {
+  text-align: left;
+}
+.marvel {
+  color: red;
+}
+.img404 {
+  margin-top: 10%;
+}
+.center404 {
+  margin-top: 50%;
+  text-align: center;
+}
+.homeimg {
+  height: 556px;
+  padding-bottom: 1rem;
+  transition: transform 0.2s;
+  filter: drop-shadow(2px 4px 6px grey);
+}
+.homeimg:hover {
+  transform: scale(1.05);
+}
+.home {
+  margin-top: 2rem;
+}
+.footertext {
+  margin-top: 3rem !important;
+  border-top: none !important;
 }

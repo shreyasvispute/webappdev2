@@ -26,6 +26,7 @@ function Comics() {
   const [paginate, setPaginate] = useState(true);
   const [totalRecords, setTotalRecords] = useState("");
   const [pages, setPages] = useState("");
+  const [originalRecords, setOriginalRecords] = useState("");
 
   let params = useParams();
   let card = null;
@@ -35,7 +36,12 @@ function Comics() {
       try {
         let limit = 20;
         let page = Number(params.page);
-        if (page <= 0) {
+        if (isNaN(page)) {
+          setPageError(true);
+          return;
+        }
+
+        if (page === 0) {
           setPrevState(false);
           page = 0;
         } else {
@@ -48,6 +54,7 @@ function Comics() {
         const { data } = await axios.get(url);
         let totalRecords = data.data.total;
         setTotalRecords(totalRecords);
+        setOriginalRecords(totalRecords);
 
         let totalPages = Math.ceil(totalRecords / limit) - 1;
         setPages(totalPages);
@@ -66,7 +73,9 @@ function Comics() {
         } else {
           setPageError(false);
         }
-      } catch (error) {}
+      } catch (error) {
+        setPageError(true);
+      }
     };
     getData();
   }, [params.page]);
@@ -76,6 +85,8 @@ function Comics() {
       try {
         const url = `${baseUrl}?titleStartsWith=${searchTerm}&ts=${ts}&apikey=${publickey}&hash=${hash}`;
         const { data } = await axios.get(url);
+        setTotalRecords(data.data.total);
+
         setSearchData(data);
       } catch (error) {
         console.log(error);
@@ -86,6 +97,9 @@ function Comics() {
       setPaginate(false);
       searchCharacters(searchTerm);
     } else {
+      let records = originalRecords;
+      setTotalRecords(records);
+
       setPaginate(true);
     }
   }, [searchTerm]);
@@ -95,10 +109,9 @@ function Comics() {
   };
 
   const buildCard = (data) => {
-    console.log(data);
     return (
-      <div className="col sm-4">
-        <Card key={data.id} style={{ width: "17.5rem" }}>
+      <div key={data.id} className="col sm-4">
+        <Card style={{ width: "16rem" }}>
           <Card.Img
             alt={data.title}
             variant="top"
@@ -117,19 +130,11 @@ function Comics() {
   };
 
   if (searchTerm) {
-    if (searchData && searchData.data.count === 0) {
-      return (
-        <div>
-          <h1>Data not NotFound</h1>
-        </div>
-      );
-    } else {
-      card =
-        searchData &&
-        searchData.data.results.map((comic) => {
-          return buildCard(comic);
-        });
-    }
+    card =
+      searchData &&
+      searchData.data.results.map((comic) => {
+        return buildCard(comic);
+      });
   } else {
     card =
       apiData.data &&
@@ -158,6 +163,12 @@ function Comics() {
       return (
         <Container>
           <Container className="headRow">
+            <Row className="titleAlign">
+              <h1>
+                <span className="marvel">Marvel</span> Comics
+              </h1>
+            </Row>
+
             <Row>
               <Col sm>
                 <Search page="comics" searchValue={searchValue}></Search>
