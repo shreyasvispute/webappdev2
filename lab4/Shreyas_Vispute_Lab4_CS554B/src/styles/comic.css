@@ -1,0 +1,12 @@
+.card-group {
+  margin-top: 30px;
+}
+.card-title-inner {
+  margin-top: 15px !important;
+  color: black !important;
+  background-color: #f7f7f7;
+}
+.card-title-inner:hover {
+  color: black !important;
+  background-color: #f7f7f7 !important;
+}

@@ -1,0 +1,22 @@
+.description {
+  padding: 1rem 1rem;
+  float: right;
+  width: 50%;
+  position: absolute;
+  left: 31%;
+  top: 8%;
+}
+.title {
+  padding: 5px;
+  font-weight: 600 !important;
+}
+.card-title-inner {
+  margin-top: 15px !important;
+
+  color: black !important;
+  background-color: #f7f7f7;
+}
+.card-title-inner:hover {
+  color: black !important;
+  background-color: #f7f7f7 !important;
+}

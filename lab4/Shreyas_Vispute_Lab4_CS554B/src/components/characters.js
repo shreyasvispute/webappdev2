@@ -1,35 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import md5 from "blueimp-md5";
 import axios from "axios";
-import Paginate from "./paginate";
-import NotFound from "./notfound";
-
-import { Card, Container, Spinner, CardGroup, Row, Col } from "react-bootstrap";
+import md5 from "blueimp-md5";
 import Search from "./search";
+import NotFound from "./notfound";
+import Paginate from "./paginate";
+import { Card, Container, Spinner, CardGroup, Row, Col } from "react-bootstrap";
 
 const publickey = "be3f31438c0d0dca365602ae44e1256e";
 const privatekey = "943eee94a11e331175bd7a9dbab6650308c4fab6";
 const ts = new Date().getTime();
 const stringToHash = ts + privatekey + publickey;
 const hash = md5(stringToHash);
-const baseUrl = "https://gateway.marvel.com:443/v1/public/comics";
+const baseUrl = "https://gateway.marvel.com:443/v1/public/characters";
 
-function Comics() {
-  const [apiData, setApiData] = useState([]);
-  const [loading, setLoading] = useState(true);
+function Characters() {
   const [searchData, setSearchData] = useState(undefined);
   const [searchTerm, setSearchTerm] = useState("");
+  const [apiData, setApiData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [pageError, setPageError] = useState(false);
   const [isPrev, setPrevState] = useState(false);
   const [isNext, setNextState] = useState(false);
   const [paginate, setPaginate] = useState(true);
   const [totalRecords, setTotalRecords] = useState("");
-  const [pages, setPages] = useState("");
   const [originalRecords, setOriginalRecords] = useState("");
 
-  let params = useParams();
+  const [pages, setPages] = useState("");
+
   let card = null;
+  let params = useParams();
 
   useEffect(() => {
     const getData = async () => {
@@ -40,17 +40,16 @@ function Comics() {
           setPageError(true);
           return;
         }
-
         if (page === 0) {
           setPrevState(false);
           page = 0;
         } else {
           setPrevState(true);
         }
+
         page += 1;
         let offset = limit * page - limit;
         const url = `${baseUrl}?offset=${offset}&limit=${limit}&ts=${ts}&apikey=${publickey}&hash=${hash}`;
-
         const { data } = await axios.get(url);
         let totalRecords = data.data.total;
         setTotalRecords(totalRecords);
@@ -74,6 +73,7 @@ function Comics() {
         }
       } catch (error) {
         setPageError(true);
+        console.log(error);
       }
     };
     getData();
@@ -82,23 +82,21 @@ function Comics() {
   useEffect(() => {
     async function searchCharacters(searchTerm) {
       try {
-        const url = `${baseUrl}?titleStartsWith=${searchTerm}&ts=${ts}&apikey=${publickey}&hash=${hash}`;
+        const url = `${baseUrl}?nameStartsWith=${searchTerm}&ts=${ts}&apikey=${publickey}&hash=${hash}`;
         const { data } = await axios.get(url);
         setTotalRecords(data.data.total);
-
         setSearchData(data);
       } catch (error) {
+        setPageError(true);
         console.log(error);
       }
     }
-
     if (searchTerm) {
       setPaginate(false);
       searchCharacters(searchTerm);
     } else {
       let records = originalRecords;
       setTotalRecords(records);
-
       setPaginate(true);
     }
   }, [searchTerm]);
@@ -106,39 +104,36 @@ function Comics() {
   const searchValue = async (value) => {
     setSearchTerm(value);
   };
-
   const buildCard = (data) => {
     return (
       <div key={data.id} className="col sm-4">
         <Card style={{ width: "16rem" }}>
           <Card.Img
-            alt={data.title}
+            alt={data.name}
             variant="top"
             src={data.thumbnail.path + "." + data.thumbnail.extension}
           />
           <Card.Body>
-            <Link to={`/comics/${data.id}`}>
-              <Card.Title>{data.title}</Card.Title>
+            <Link to={`/characters/${data.id}`}>
+              <Card.Title>{data.name}</Card.Title>
             </Link>
-
             {/* <Card.Text>{characterData.description}</Card.Text> */}
           </Card.Body>
         </Card>
       </div>
     );
   };
-
   if (searchTerm) {
     card =
       searchData &&
-      searchData.data.results.map((comic) => {
-        return buildCard(comic);
+      searchData.data.results.map((characters) => {
+        return buildCard(characters);
       });
   } else {
     card =
       apiData.data &&
-      apiData.data.results.map((comicsData) => {
-        return buildCard(comicsData);
+      apiData.data.results.map((characterData) => {
+        return buildCard(characterData);
       });
   }
   if (pageError) {
@@ -164,13 +159,13 @@ function Comics() {
           <Container className="headRow">
             <Row className="titleAlign">
               <h1>
-                <span className="marvel">Marvel</span> Comics
+                <span className="marvel">Marvel</span> Characters
               </h1>
             </Row>
 
             <Row>
               <Col sm>
-                <Search page="comics" searchValue={searchValue}></Search>
+                <Search page="Characters" searchValue={searchValue}></Search>
               </Col>
               <Col sm className="makeCenter filterMargin">
                 {paginate && (
@@ -178,7 +173,7 @@ function Comics() {
                     pageNum={params.page}
                     prevState={isPrev}
                     nextState={isNext}
-                    page="comics"
+                    page="characters"
                     currentPage={
                       Number(params.page) < 0 ? 0 : Number(params.page)
                     }
@@ -198,4 +193,4 @@ function Comics() {
   }
 }
 
-export default Comics;
+export default Characters;
