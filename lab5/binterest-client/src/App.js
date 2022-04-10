@@ -14,7 +14,27 @@ import {
 } from "@apollo/client";
 
 const client = new ApolloClient({
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          unsplashImages: {
+            // Don't cache separate results based on
+            // any of this field's arguments.
+            keyArgs: false,
+
+            // Concatenate the incoming list items with
+            // the existing list items.
+            merge(existing = [], incoming) {
+              // return [...existing, ...incoming];
+              return [...incoming];
+            },
+          },
+        },
+      },
+    },
+  }),
+
   link: new HttpLink({
     uri: "http://localhost:4000",
   }),
