@@ -14,11 +14,9 @@ import {
 import ImageList from "./imageList";
 
 function MyBin() {
-  const [apiData, setApiData] = useState([]);
-
-  let card;
   const { loading, error, data } = useQuery(queries.GET_BINNED_IMAGES, {
     fetchPolicy: "cache-and-network",
+    notifyOnNetworkStatusChange: true,
   });
 
   if (data) {

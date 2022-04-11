@@ -32,6 +32,9 @@ const client = new ApolloClient({
           },
         },
       },
+      binnedImages: {
+        merge: true,
+      },
     },
   }),
 
@@ -61,9 +64,9 @@ function App() {
                   <Nav.Link as={Link} to="my-posts">
                     my-posts
                   </Nav.Link>
-                  <Nav.Link as={Link} to="new-post">
+                  {/* <Nav.Link as={Link} to="new-post">
                     new-post
-                  </Nav.Link>
+                  </Nav.Link> */}
                 </Nav>
               </Container>
             </Navbar>

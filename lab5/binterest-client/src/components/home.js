@@ -15,7 +15,6 @@ import {
 import ImageList from "./imageList";
 
 function Home() {
-  const [apiData, setApiData] = useState([]);
   const [pageNum, setPageNumber] = useState(1);
   const { loading, error, data, fetchMore } = useQuery(queries.GET_IMAGES, {
     variables: { pageNum },

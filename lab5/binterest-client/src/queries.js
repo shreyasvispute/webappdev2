@@ -65,11 +65,44 @@ const UPDATE_IMAGE = gql`
     }
   }
 `;
+
+const UPLOAD_IMAGE = gql`
+  mutation UploadImage(
+    $url: String!
+    $description: String
+    $posterName: String
+  ) {
+    uploadImage(url: $url, description: $description, posterName: $posterName) {
+      id
+      url
+      posterName
+      description
+      userPosted
+      binned
+    }
+  }
+`;
+
+const DELETE_IMAGE = gql`
+  mutation DeleteImage($id: ID!) {
+    deleteImage(id: $id) {
+      id
+      url
+      posterName
+      description
+      userPosted
+      binned
+    }
+  }
+`;
+
 let exported = {
   GET_IMAGES,
   GET_BINNED_IMAGES,
   GET_USERPOSTED_IMAGES,
   UPDATE_IMAGE,
+  UPLOAD_IMAGE,
+  DELETE_IMAGE,
 };
 
 export default exported;

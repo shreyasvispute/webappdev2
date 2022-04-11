@@ -1,31 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import React from "react";
 
 import queries from "../queries";
-import { useMutation, useQuery } from "@apollo/client";
-import {
-  Card,
-  Container,
-  Spinner,
-  CardGroup,
-  Button,
-  Col,
-} from "react-bootstrap";
+import { useMutation } from "@apollo/client";
+import { Card, Container, Spinner, CardGroup, Button } from "react-bootstrap";
 
 const ImageList = (data) => {
-  const [updateImage] = useMutation(queries.UPDATE_IMAGE, {
-    update(cache, { data: { updateImage } }) {
-      const { unsplashImages } = cache.readQuery({
-        query: queries.GET_IMAGES,
-        variables: data.pageNum,
-      });
-      cache.writeQuery({
-        query: queries.GET_IMAGES,
-        variables: data.pageNum,
-        data: { unsplashImages },
-      });
-    },
-  });
+  const [updateImage, { loading, error }] = useMutation(
+    queries.UPDATE_IMAGE
+    //   , {
+    //   update(cache, { data: { updateImage } }) {
+    //     const { unsplashImages } = cache.readQuery({
+    //       query: queries.GET_IMAGES,
+    //       variables: data.pageNum,
+    //     });
+    //     cache.writeQuery({
+    //       query: queries.GET_IMAGES,
+    //       variables: data.pageNum,
+    //       data: { unsplashImages },
+    //     });
+    //   },
+    // }
+  );
+
+  const [deleteImage, { loading_delete, error_delete }] = useMutation(
+    queries.DELETE_IMAGE,
+    {
+      refetchQueries: [queries.GET_USERPOSTED_IMAGES, "UserPostedImages"],
+    }
+  );
 
   const buildImageCard = (e) => {
     return (
@@ -77,10 +79,30 @@ const ImageList = (data) => {
               </Button>
             )}
           </Card.Body>
+          {data.page === "myPosts" && (
+            <Card.Body>
+              <Button
+                className="deletePost"
+                variant="primary"
+                onClick={() =>
+                  deleteImage({
+                    variables: {
+                      id: e.id,
+                    },
+                  })
+                }
+              >
+                Delete
+              </Button>
+            </Card.Body>
+          )}
         </Card>
       </div>
     );
   };
+  if (error) return `Submission error! ${error.message}`;
+  if (loading_delete) return "Submitting...";
+  if (error_delete) return `Submission error! ${error.message}`;
 
   if (data.data) {
     console.log(data.data);
