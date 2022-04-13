@@ -2,10 +2,10 @@ import React from "react";
 
 import queries from "../queries";
 import { useMutation } from "@apollo/client";
-import { Card, Container, Spinner, CardGroup, Button } from "react-bootstrap";
+import { Card, Container, CardGroup, Button } from "react-bootstrap";
 
 const ImageList = (data) => {
-  const [updateImage, { loading, error }] = useMutation(
+  const [updateImage, { error }] = useMutation(
     queries.UPDATE_IMAGE
     //   , {
     //   update(cache, { data: { updateImage } }) {
@@ -22,16 +22,13 @@ const ImageList = (data) => {
     // }
   );
 
-  const [deleteImage, { loading_delete, error_delete }] = useMutation(
-    queries.DELETE_IMAGE,
-    {
-      refetchQueries: [queries.GET_USERPOSTED_IMAGES, "UserPostedImages"],
-    }
-  );
+  const [deleteImage, { error_delete }] = useMutation(queries.DELETE_IMAGE, {
+    refetchQueries: [queries.GET_USERPOSTED_IMAGES, "UserPostedImages"],
+  });
 
   const buildImageCard = (e) => {
     return (
-      <div key={e.id} className="col sm-4">
+      <div key={e.id} className="col lg">
         <Card key={e.id} style={{ width: "18rem" }}>
           <Card.Img alt={e.posterName} variant="top" src={e.url} />
           <Card.Body>
@@ -52,6 +49,7 @@ const ImageList = (data) => {
                       description: e.description,
                       userPosted: e.userPosted,
                       binned: false,
+                      numBinned: e.numBinned,
                     },
                   })
                 }
@@ -71,6 +69,7 @@ const ImageList = (data) => {
                       description: e.description,
                       userPosted: e.userPosted,
                       binned: true,
+                      numBinned: e.numBinned,
                     },
                   })
                 }
@@ -83,7 +82,7 @@ const ImageList = (data) => {
             <Card.Body>
               <Button
                 className="deletePost"
-                variant="primary"
+                variant="danger"
                 onClick={() =>
                   deleteImage({
                     variables: {
@@ -101,12 +100,25 @@ const ImageList = (data) => {
     );
   };
   if (error) return `Submission error! ${error.message}`;
-  if (loading_delete) return "Submitting...";
   if (error_delete) return `Submission error! ${error.message}`;
 
-  if (data.data) {
-    console.log(data.data);
-
+  if (data.data && data.page === "popularity") {
+    // console.log(data.data);
+    const sum = data.data.reduce((accumulator, object) => {
+      return accumulator + object.numBinned;
+    }, 0);
+    return (
+      <Container>
+        {sum && sum > 200 ? <h1>Mainstream</h1> : <h1>Non-Mainstream</h1>}
+        <CardGroup>
+          {data.data &&
+            data.data.map((e) => {
+              return buildImageCard(e);
+            })}
+        </CardGroup>
+      </Container>
+    );
+  } else if (data.data) {
     return (
       <Container>
         <CardGroup>

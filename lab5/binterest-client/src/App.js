@@ -12,6 +12,7 @@ import {
   InMemoryCache,
   ApolloProvider,
 } from "@apollo/client";
+import Popularity from "./components/popularity";
 
 const client = new ApolloClient({
   cache: new InMemoryCache({
@@ -27,6 +28,12 @@ const client = new ApolloClient({
             // the existing list items.
             merge(existing = [], incoming) {
               // return [...existing, ...incoming];
+              //const merged = existing ? existing.slice(-10) : [];
+
+              //console.log("existing", merged);
+              //console.log("incoming", incoming);
+
+              //return [...merged, ...incoming];
               return [...incoming];
             },
           },
@@ -49,24 +56,29 @@ function App() {
       <div className="App">
         <header className="header">
           <Container className="navHead">
-            <Navbar expand="lg" variant="light" bg="light" sticky="top">
+            <Navbar
+              expand="lg"
+              className="justify-content-center"
+              variant="light"
+              bg="light"
+              sticky="top"
+            >
               <Container>
-                <Link className="link-style" to="/">
-                  <Navbar.Brand>
-                    Binterest
-                    {/* <img alt="logo" className="logo-size" src={logo}></img> */}
-                  </Navbar.Brand>
-                </Link>
+                <Navbar.Brand>Binterest</Navbar.Brand>
                 <Nav className="me-auto">
+                  <Nav.Link as={Link} to="/">
+                    my-images
+                  </Nav.Link>
+
                   <Nav.Link as={Link} to="my-bin">
                     my-bin
                   </Nav.Link>
                   <Nav.Link as={Link} to="my-posts">
                     my-posts
                   </Nav.Link>
-                  {/* <Nav.Link as={Link} to="new-post">
-                    new-post
-                  </Nav.Link> */}
+                  <Nav.Link as={Link} to="popularity">
+                    popular
+                  </Nav.Link>
                 </Nav>
               </Container>
             </Navbar>
@@ -78,6 +90,8 @@ function App() {
           <Route path="/my-bin" element={<MyBin />}></Route>
           <Route path="/my-posts" element={<MyPosts />}></Route>
           <Route path="/new-post" element={<NewPost />}></Route>
+          <Route path="/popularity" element={<Popularity />}></Route>
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

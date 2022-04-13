@@ -16,6 +16,10 @@ function MyPosts() {
       return (
         <Container>
           <Row>
+            <h1>Posted Images</h1>
+          </Row>
+
+          <Row>
             <Link to="/new-post">New Post</Link>
           </Row>
           <Row>

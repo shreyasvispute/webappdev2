@@ -1,24 +1,19 @@
 import React from "react";
-
+import { Container, Row, Col } from "react-bootstrap";
 import queries from "../queries";
 import { useQuery } from "@apollo/client";
-import { Container } from "react-bootstrap";
 import ImageList from "./imageList";
 
-function MyBin() {
-  const { loading, error, data } = useQuery(queries.GET_BINNED_IMAGES, {
+function Popularity() {
+  const { loading, error, data } = useQuery(queries.GET_TOP_TEN_BINNED_POSTS, {
     fetchPolicy: "cache-and-network",
-    notifyOnNetworkStatusChange: true,
   });
 
   if (data) {
-    const { binnedImages } = data;
-    if (binnedImages.length !== 0) {
+    const { getTopTenBinnedPosts } = data;
+    if (getTopTenBinnedPosts.length !== 0) {
       return (
-        <Container>
-          <h1>Binned Images</h1>
-          <ImageList page="myBin" data={binnedImages}></ImageList>;
-        </Container>
+        <ImageList page="popularity" data={getTopTenBinnedPosts}></ImageList>
       );
     } else {
       return (
@@ -34,4 +29,4 @@ function MyBin() {
   }
 }
 
-export default MyBin;
+export default Popularity;

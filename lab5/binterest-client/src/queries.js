@@ -9,6 +9,7 @@ const GET_IMAGES = gql`
       userPosted
       url
       binned
+      numBinned
     }
   }
 `;
@@ -22,6 +23,7 @@ const GET_BINNED_IMAGES = gql`
       description
       binned
       userPosted
+      numBinned
     }
   }
 `;
@@ -35,6 +37,7 @@ const GET_USERPOSTED_IMAGES = gql`
       description
       userPosted
       binned
+      numBinned
     }
   }
 `;
@@ -47,6 +50,7 @@ const UPDATE_IMAGE = gql`
     $description: String
     $userPosted: Boolean
     $binned: Boolean
+    $numBinned: Int
   ) {
     updateImage(
       id: $id
@@ -55,6 +59,7 @@ const UPDATE_IMAGE = gql`
       description: $description
       userPosted: $userPosted
       binned: $binned
+      numBinned: $numBinned
     ) {
       id
       url
@@ -62,6 +67,7 @@ const UPDATE_IMAGE = gql`
       description
       userPosted
       binned
+      numBinned
     }
   }
 `;
@@ -79,6 +85,7 @@ const UPLOAD_IMAGE = gql`
       description
       userPosted
       binned
+      numBinned
     }
   }
 `;
@@ -92,6 +99,21 @@ const DELETE_IMAGE = gql`
       description
       userPosted
       binned
+      numBinned
+    }
+  }
+`;
+
+const GET_TOP_TEN_BINNED_POSTS = gql`
+  query GetTopTenBinnedPosts {
+    getTopTenBinnedPosts {
+      id
+      url
+      posterName
+      description
+      userPosted
+      binned
+      numBinned
     }
   }
 `;
@@ -103,6 +125,7 @@ let exported = {
   UPDATE_IMAGE,
   UPLOAD_IMAGE,
   DELETE_IMAGE,
+  GET_TOP_TEN_BINNED_POSTS,
 };
 
 export default exported;

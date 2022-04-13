@@ -95,6 +95,7 @@ function NewPost() {
 
   return (
     <Container>
+      <h1>New Post</h1>
       <Form
         className="userPost"
         id="user-Post"
@@ -102,13 +103,29 @@ function NewPost() {
           handleSubmit(e);
         }}
       >
+        <Form.Group className="mb-3" controlId="formBasicDescription">
+          <Form.Label>Description</Form.Label>
+          <Form.Control
+            ref={(node) => {
+              description = node;
+            }}
+            type="text"
+            autoFocus={true}
+            onChange={(e) => setField("description", e.target.value)}
+            placeholder="Enter Description"
+            isInvalid={!!errors.description}
+          />
+          <Form.Control.Feedback type="invalid">
+            {errors.description}
+          </Form.Control.Feedback>
+        </Form.Group>
+
         <Form.Group className="mb-3" controlId="formBasicURL">
-          <Form.Label>URL</Form.Label>
+          <Form.Label>Image URL</Form.Label>
           <Form.Control
             ref={(node) => {
               url = node;
             }}
-            autoFocus={true}
             type="text"
             onChange={(e) => setField("url", e.target.value)}
             placeholder="Paste any image URL from internet."
@@ -119,31 +136,15 @@ function NewPost() {
           </Form.Control.Feedback>
         </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formBasicDescription">
-          <Form.Label>Description</Form.Label>
-          <Form.Control
-            ref={(node) => {
-              description = node;
-            }}
-            type="text"
-            onChange={(e) => setField("description", e.target.value)}
-            placeholder="Enter Description"
-            isInvalid={!!errors.description}
-          />
-          <Form.Control.Feedback type="invalid">
-            {errors.description}
-          </Form.Control.Feedback>
-        </Form.Group>
-
         <Form.Group className="mb-3" controlId="formBasicPosterName">
-          <Form.Label>Poster Name</Form.Label>
+          <Form.Label>Author Name</Form.Label>
           <Form.Control
             ref={(node) => {
               posterName = node;
             }}
             type="text"
             onChange={(e) => setField("posterName", e.target.value)}
-            placeholder="Enter Poster Name"
+            placeholder="Enter Author Name"
             isInvalid={!!errors.posterName}
           />
           <Form.Control.Feedback type="invalid">

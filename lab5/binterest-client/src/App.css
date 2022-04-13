@@ -48,3 +48,19 @@
 .addBin {
   width: 200px;
 }
+.boundingBox {
+  height: 500px;
+  width: 500px;
+}
+.displayImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.getmore {
+  width: 200px !important;
+  margin-bottom: 1rem !important;
+  margin: 0 auto;
+}

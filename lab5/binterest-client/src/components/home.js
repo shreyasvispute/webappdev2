@@ -37,6 +37,7 @@ function Home() {
     const { unsplashImages } = data;
     return (
       <Container>
+        <h1>Binterest Images</h1>
         <Row>
           <ImageList
             page="home"
@@ -47,7 +48,7 @@ function Home() {
         <Row>
           <Button
             className="getmore"
-            variant="primary"
+            variant="success"
             onClick={() => handleMore()}
           >
             Get More
