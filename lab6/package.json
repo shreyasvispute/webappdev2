@@ -1,0 +1,28 @@
+{
+  "name": "lab6",
+  "version": "1.0.0",
+  "description": "GraphQL with Pokemon API",
+  "main": "app.js",
+  "dependencies": {
+    "apollo-server": "^3.6.7",
+    "axios": "^0.26.1",
+    "graphql": "^16.3.0",
+    "redis": "^4.0.6",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shreyasvispute/webappdev2.git"
+  },
+  "license": "ISC",
+  "author": "Shreyas Vispute 10477563",
+  "bugs": {
+    "url": "https://github.com/shreyasvispute/webappdev2/issues"
+  },
+  "homepage": "https://github.com/shreyasvispute/webappdev2#readme"
+}
