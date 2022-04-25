@@ -36,3 +36,46 @@
     transform: rotate(360deg);
   }
 }
+.trainerPokemon {
+  font-size: small !important;
+  word-wrap: normal !important;
+}
+.pokemonImage {
+  height: 150px !important;
+  width: 140px !important;
+}
+
+.catchedPokemon {
+  display: block !important;
+  border: none !important;
+}
+.mb-3 {
+  width: 50% !important;
+  margin: auto !important;
+}
+.searchPokemon {
+  display: block !important;
+  margin: auto !important;
+  width: fit-content !important;
+}
+.paginateDesign {
+  display: flex;
+  align-content: stretch;
+  justify-content: center;
+}
+.filterMargin {
+  white-space: nowrap;
+}
+.card-body {
+  padding: 10px !important;
+}
+.card {
+  margin: 15px;
+}
+.pokemonUI {
+  transition: transform 0.2s;
+  filter: drop-shadow(2px 4px 6px grey);
+}
+.pokemonUI:hover {
+  transform: scale(1.05);
+}

@@ -1,6 +1,10 @@
-const { ApolloServer, gql, ApolloError } = require("apollo-server");
+const {
+  ApolloServer,
+  gql,
+  ApolloError,
+  UserInputError,
+} = require("apollo-server");
 const { default: axios } = require("axios");
-const uuid = require("uuid");
 const redis = require("redis");
 
 const client = redis.createClient();
@@ -16,6 +20,7 @@ const typeDefs = gql`
   type Query {
     pokemonData(pageNum: Int!): pokemonList
     getPokemon(id: ID!): pokemon
+    searchPokemon(key: String!): pokemon
   }
 
   type pokemonList {
@@ -30,6 +35,7 @@ const typeDefs = gql`
     name: String!
     image: String
     types: [pokeType]
+    abilities: [pokeType]
   }
 
   type pokeType {
@@ -42,7 +48,7 @@ async function getPokemonLists(pageNum) {
     if (pageNum < 0) {
       throw new UserInputError("Page Number cannot be less than 0");
     }
-    pageNum = pageNum * 10;
+    pageNum = pageNum * 20;
     const baseUrl = `http://pokeapi.co/api/v2/pokemon/?limit=20&offset=${pageNum}`;
     const { data } = await axios.get(baseUrl);
 
@@ -80,7 +86,6 @@ async function checkPokemonInCache(id) {
     return pokemonData;
   } catch (error) {}
 }
-
 async function getPokemon(id) {
   try {
     const pokemonFromCache = await checkPokemonInCache(id);
@@ -91,6 +96,7 @@ async function getPokemon(id) {
 
       if (pokemon) {
         let types = [];
+        let abilities = [];
 
         pokemon?.data.types.forEach((element) => {
           const type = {
@@ -99,11 +105,19 @@ async function getPokemon(id) {
           types.push(type);
         });
 
+        pokemon?.data.abilities.map((e) => {
+          const ability = {
+            name: e.ability.name,
+          };
+          abilities.push(ability);
+        });
+
         const object = {
           id: pokemon.data.id,
           name: pokemon.data.name,
           image: pokemon.data.sprites.other["official-artwork"].front_default,
           types: types,
+          abilities: abilities,
         };
 
         const insertPokemon = await client.hSet(
@@ -111,6 +125,7 @@ async function getPokemon(id) {
           id,
           JSON.stringify(object)
         );
+
         return object;
       }
     } else {
@@ -121,10 +136,49 @@ async function getPokemon(id) {
   }
 }
 
+async function searchPokemon(key) {
+  try {
+    const baseUrl = `https://pokeapi.co/api/v2/pokemon/${key}`;
+    const pokemon = await axios.get(baseUrl);
+
+    if (pokemon) {
+      let types = [];
+      let abilities = [];
+
+      pokemon?.data.types.forEach((element) => {
+        const type = {
+          name: element.type.name,
+        };
+        types.push(type);
+      });
+
+      pokemon?.data.abilities.map((e) => {
+        const ability = {
+          name: e.ability.name,
+        };
+        abilities.push(ability);
+      });
+
+      const object = {
+        id: pokemon.data.id,
+        name: pokemon.data.name,
+        image: pokemon.data.sprites.other["official-artwork"].front_default,
+        types: types,
+        abilities: abilities,
+      };
+
+      return object;
+    }
+  } catch (error) {
+    throw new ApolloError(error);
+  }
+}
+
 const resolvers = {
   Query: {
     pokemonData: async (_, args) => getPokemonLists(args.pageNum),
     getPokemon: async (_, args) => getPokemon(args.id),
+    searchPokemon: async (_, args) => searchPokemon(args.key),
   },
 };
 

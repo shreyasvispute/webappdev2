@@ -6,6 +6,9 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import Pokemon from "./components/pokemon";
 import PokemonList from "./components/pokemonList";
 import Trainers from "./components/trainers";
+import Search from "./components/search";
+import NotFound from "./components/notFound";
+import Home from "./components/home";
 import "./App.css";
 
 import reducer from "./reducers/trainerReducer";
@@ -43,6 +46,9 @@ function App() {
                     <Nav.Link as={Link} to="trainers">
                       Trainers
                     </Nav.Link>
+                    <Nav.Link as={Link} to="search">
+                      Search
+                    </Nav.Link>
                   </Nav>
                 </Container>
               </Navbar>
@@ -50,15 +56,16 @@ function App() {
           </header>
 
           <Routes>
-            {/* <Route path="/" element={<PokemonList />}></Route> */}
+            <Route path="/" element={<Home />}></Route>
             <Route
               path="/pokemon/page/:pageNum"
               element={<PokemonList />}
             ></Route>
             <Route path="/pokemon/:id" element={<Pokemon />}></Route>
             <Route path="/trainers" element={<Trainers />}></Route>
+            <Route path="/search" element={<Search />}></Route>
 
-            {/* <Route path="*" element={<NotFound />} /> */}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </ApolloProvider>

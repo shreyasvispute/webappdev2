@@ -8,11 +8,7 @@ function NotFound() {
       <Container>
         <Row>
           <Col>
-            <h1 className="center404">404 Page not found</h1>
-          </Col>
-          <Col>
-            {" "}
-            {/* <img className="img404" src={background} alt="ironmanMeme"></img> */}
+            <h1 className="center404">404, not found!</h1>
           </Col>
         </Row>
       </Container>

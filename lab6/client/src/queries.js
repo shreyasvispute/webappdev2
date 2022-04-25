@@ -13,24 +13,46 @@ const GET_POKEMONLIST = gql`
         types {
           name
         }
+        abilities {
+          name
+        }
       }
     }
   }
 `;
 
 const GET_POKEMON = gql`
-  query GetPokemon($getPokemonId: ID!) {
-    getPokemon(id: $getPokemonId) {
+  query GetPokemon($pokemonId: ID!) {
+    getPokemon(id: $pokemonId) {
       id
       name
       image
       types {
         name
       }
+      abilities {
+        name
+      }
     }
   }
 `;
 
-let exported = { GET_POKEMONLIST, GET_POKEMON };
+const SEARCH_POKEMON = gql`
+  query SearchPokemon($key: String!) {
+    searchPokemon(key: $key) {
+      id
+      image
+      name
+      types {
+        name
+      }
+      abilities {
+        name
+      }
+    }
+  }
+`;
+
+let exported = { GET_POKEMONLIST, GET_POKEMON, SEARCH_POKEMON };
 
 export default exported;
