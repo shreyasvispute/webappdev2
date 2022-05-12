@@ -15,9 +15,8 @@ function Search() {
   const handleClick = (e) => {
     e.preventDefault();
     const key = document.getElementById("searchPokemon").value;
-    debugger;
     if (key === "") {
-      alert("Please enter Pokemon name");
+      alert("Please enter Pokemon name or id");
     } else if (key && key.trim().length === 0) {
       alert("Name cannot be blank spaces");
     } else {
@@ -55,7 +54,7 @@ function Search() {
               }}
               aria-label="searchPokemon"
               aria-describedby="searchPokemon"
-              placeholder="Enter pokemon name"
+              placeholder="Enter pokemon name or id"
             />
             <Button
               variant="primary"

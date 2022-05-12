@@ -48,17 +48,22 @@ function Pokemon() {
             <Col>{getPokemon.name}'s Type</Col>
           </Row>
           <Row>
-            {getPokemon.types?.map((e) => {
-              return <Col key={e.name}>{e.name}</Col>;
-            })}
+            <Col>
+              {" "}
+              {getPokemon.types?.map((e) => {
+                return <Col key={e.name}>{e.name}</Col>;
+              })}
+            </Col>
           </Row>
           <Row>
             <Col>{getPokemon.name}'s Abilities</Col>
           </Row>
           <Row>
-            {getPokemon.abilities?.map((e) => {
-              return <Col key={e.name}>{e.name}</Col>;
-            })}
+            <Col>
+              {getPokemon.abilities?.map((e) => {
+                return <Col key={e.name}>{e.name}</Col>;
+              })}
+            </Col>
           </Row>
         </Container>
       </div>

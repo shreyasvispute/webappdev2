@@ -84,7 +84,9 @@ async function checkPokemonInCache(id) {
     const cache = await client.hGet("pokeCache", id);
     let pokemonData = JSON.parse(cache);
     return pokemonData;
-  } catch (error) {}
+  } catch (error) {
+    throw new ApolloError(error);
+  }
 }
 async function getPokemon(id) {
   try {
